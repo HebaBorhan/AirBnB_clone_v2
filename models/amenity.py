@@ -9,7 +9,7 @@ class Amenity(BaseModel, Base):
     """Class defining Amenity"""
     __tablename__ = "amenities"
     name = Column(String(128), nullable=False)
-    place_amenities = relationship("Place", secondary="place_amenity", overlaps="place_amenities")
+    place_amenities = relationship("Place", secondary="place_amenity", viewonly=False)
 
     def __init__(self,*args,**kwargs):
         """New Amenity instance"""

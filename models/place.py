@@ -3,20 +3,22 @@
 import os
 from models.base_model import BaseModel, Base
 from models.amenity import Amenity
+from models.review import Review
 from sqlalchemy import Column, Integer, Float, String, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy import Table, MetaData
+from sqlalchemy import Table
+
 
 metadata = Base.metadata
-place_amenity = Table('place_amenity', metadata,
-                      Column('place_id', String(60),
-                             ForeignKey('places.id'),
-                             primary_key=True,
-                             nullable=False),
-                      Column('amenity_id', String(60),
-                             ForeignKey('amenities.id'),
-                             primary_key=True,
-                             nullable=False))
+association_table = Table('place_amenity', metadata,
+                    Column('place_id', String(60),
+                            ForeignKey('places.id'),
+                            primary_key=True,
+                            nullable=False),
+                    Column('amenity_id', String(60),
+                            ForeignKey('amenities.id'),
+                            primary_key=True,
+                            nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -32,12 +34,14 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
-    reviews = relationship("Review", cascade="delete", backref="place")
-    amenities = relationship("Amenity", secondary="place_amenity",
-                             viewonly=False, overlaps="place_amenities")
     amenity_ids = []
 
-    if os.getenv("HBNB_TYPE_STORAGE") != "db":
+    if os.getenv("HBNB_TYPE_STORAGE") == "db":
+        reviews = relationship("Review", cascade="delete", backref="place")
+        amenities = relationship("Amenity", secondary="place_amenity",
+                                    viewonly=False, overlaps="place_amenities")
+    
+    else:
         @property
         def reviews(self):
             """getter attribute for reviews"""
@@ -53,20 +57,19 @@ class Place(BaseModel, Base):
         def amenities(self):
             """getter attribute for amenities"""
             from models import storage
-            from models.amenity import Amenity
             amenities_lst = []
-            ameninties = storage.all("Ameninty").values()
-            for ameninty in ameninties:
-                if ameninty.id in self.amenity_ids:
-                    amenities_lst.append(ameninty)
+            amenities = storage.all("Amenity").values()
+            for amenity in amenities:
+                if amenity.id in self.amenity_ids:
+                    amenities_lst.append(amenity)
             return amenities_lst
 
         @amenities.setter
         def amenities(self, obj):
             """Adds an amenity to this Place"""
-            if isinstance(obj, Amenity):
+            if type(obj) == Amenity:
                 self.amenity_ids.append(obj.id)
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self, *args, **kwargs):
         """New Place instance"""
-        super().__init__(**kwargs)
+        super().__init__(*args, **kwargs)
