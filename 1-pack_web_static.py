@@ -7,10 +7,10 @@ from datetime import datetime
 def do_pack():
     """Compress the contents of web_static folder into a .tgz archive"""
     current = datetime.now()
-    archive = 'web_static_' + current.strftime("%Y%m%d%H%M%S") + '.' + 'tgz'
+    compress = 'web_static_' + current.strftime("%Y%m%d%H%M%S") + '.' + 'tgz'
     local('mkdir -p versions')
-    create = local('tar -cvzf versions/{} web_static'.format(archive))
+    create = local('tar -cvzf versions/{} web_static'.format(compress))
     if create is not None:
-        return archive
+        return compress
     else:
         return None
