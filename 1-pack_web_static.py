@@ -28,10 +28,3 @@ def do_pack():
         # Print an error message if an exception occurs
         print("Error:", e)
         return None
-
-# Example usage:
-# result = do_pack()
-# if result:
-#     print("Archive generated:", result)
-# else:
-#     print("Failed to generate archive.")
