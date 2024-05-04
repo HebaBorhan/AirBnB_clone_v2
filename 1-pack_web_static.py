@@ -4,6 +4,7 @@ from fabric.api import *
 from datetime import datetime
 import os
 
+
 def do_pack():
     """Compress the contents of web_static folder into a .tgz archive"""
     time = datetime.now()
