@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Fabric script that distributes an archive to your web servers"""
+"""Fabric script that distributes an archive to your  servers"""
 from fabric.api import *
 from os import path
 env.hosts = ['23.23.73.165', '54.144.141.225']
