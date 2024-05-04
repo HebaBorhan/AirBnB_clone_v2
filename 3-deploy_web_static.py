@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Fabric script that creates and distributes an archive to your web servers"""
 from fabric.api import *
-from os import path
+from os.path import exists, isdir
 from datetime import datetime
 env.hosts = ['23.23.73.165', '54.144.141.225']
 
