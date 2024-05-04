@@ -1,4 +1,4 @@
-# This script sets up my web servers for the deployment of web_static
+# This script sets up web servers for the deployment of web_static
 
 exec { 'apt-update':
   command => '/usr/bin/apt-get update',
