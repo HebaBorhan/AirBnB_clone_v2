@@ -53,4 +53,7 @@ def deploy():
     archive_path = do_pack()
     if archive_path is None:
         return False
-    return do_deploy(archive_path)
+    deployed = do_deploy(archive_path)
+    if deployed:
+        print("New version deployed!")
+    return deployed
