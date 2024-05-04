@@ -12,7 +12,7 @@ def do_clean(number=0):
         if number < 1:
             number = 1
 
-        # Delete unnecessary archives in versions folder
+        # Delete unnecessary archives in the versions folder
         with lcd('versions'):
             local('ls -t | tail -n +{} | xargs rm -f'.format(number + 1))
 
