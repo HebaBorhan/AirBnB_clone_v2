@@ -16,7 +16,6 @@ def do_pack():
         local("tar -cvzf {} web_static".format(archive_name))
         return archive_name
     except Exception as e:
-        print("Error occurred during archive creation:", str(e))
         return None
 
 
