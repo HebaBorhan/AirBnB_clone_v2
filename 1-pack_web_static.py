@@ -9,7 +9,8 @@ def do_pack():
     current = datetime.now()
     compress = 'web_static_' + current.strftime("%Y%m%d%H%M%S") + '.' + 'tgz'
     local('mkdir -p versions')
-    result = local('tar -cvzf versions/{} web_static'.format(compress), capture=True)
+    result = local('tar -cvzf versions/{} web_static'.format(
+        compress), capture=True)
     if result.succeeded:
         return compress
     else:
