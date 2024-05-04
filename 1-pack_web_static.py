@@ -2,7 +2,6 @@
 """Fabric script for archiving."""
 from fabric.api import *
 from datetime import datetime
-import os
 
 
 def do_pack():
