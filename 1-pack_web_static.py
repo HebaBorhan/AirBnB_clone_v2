@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Fabric script for archiving"""
+"""Fabric script for archiving."""
 from fabric.api import *
 from datetime import datetime
 import os
