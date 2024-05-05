@@ -68,6 +68,11 @@ file { '/data/web_static/current':
   group   => 'ubuntu',
 }
 
+# Ensure that the Nginx configuration file exists
+file { '/etc/nginx/sites-available/default':
+  ensure => present,
+}
+
 # Restart nginx
 service { 'nginx':
   ensure    => running,
