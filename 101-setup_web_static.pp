@@ -27,6 +27,7 @@ $nginx_conf = "server {
     location /404 {
       root /var/www/html;
       internal;
+      rewrite ^ /404.html break;
     }
 }"
 
@@ -57,11 +58,10 @@ file { '/data/web_static/releases/test/index.html':
 }
 
 # Create error page
-file { '/var/www/html/404.html':
-  ensure  => 'present',
-  content => "Ceci n'est pas une page\n",
-  owner   => 'ubuntu',
-  group   => 'ubuntu',
+location = /404.html {
+    internal;
+    root /var/www/html;
+    echo 'Ceci n'est pas une page\n';
 }
 
 # Create symbolic link
