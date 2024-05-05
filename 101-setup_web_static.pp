@@ -52,11 +52,13 @@ file { '/data/web_static/releases/test/index.html':
   group   => 'ubuntu',
 }
 
-# erro page
+# Create error page
 file { '/var/www/html/404.html':
   ensure  => 'present',
   content => "Ceci n'est pas une page\n"
-} ->
+  owner   => 'ubuntu',
+  group   => 'ubuntu',
+}
 
 # Create symbolic link
 file { '/data/web_static/current':
@@ -67,6 +69,8 @@ file { '/data/web_static/current':
 }
 
 # Restart nginx
-exec { 'nginx restart':
-  path => '/etc/init.d/'
+service { 'nginx':
+  ensure    => running,
+  enable    => true,
+  subscribe => File['/etc/nginx/sites-available/default'],
 }
