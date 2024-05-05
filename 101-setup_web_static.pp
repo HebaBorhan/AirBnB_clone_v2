@@ -9,6 +9,27 @@ package { 'nginx':
   ensure  => installed,
 }
 
+# Configure nginx
+$nginx_conf = "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By ${hostname};
+    root   /var/www/html;
+    index  index.html index.htm;
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
+    location /redirect_me {
+        return 301 https://www.linkedin.com/in/heba-borhan/;
+    }
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}"
+
 # Create directory structure
 file { ['/data', '/data/web_static', '/data/web_static/releases', '/data/web_static/shared', '/data/web_static/releases/test']:
   ensure => directory,
@@ -31,6 +52,12 @@ file { '/data/web_static/releases/test/index.html':
   group   => 'ubuntu',
 }
 
+# erro page
+file { '/var/www/html/404.html':
+  ensure  => 'present',
+  content => "Ceci n'est pas une page\n"
+} ->
+
 # Create symbolic link
 file { '/data/web_static/current':
   ensure  => link,
@@ -39,18 +66,7 @@ file { '/data/web_static/current':
   group   => 'ubuntu',
 }
 
-# Configure nginx
-file_line { 'nginx-hbnb-static-location':
-  path    => '/etc/nginx/sites-available/default',
-  line    => 'location /hbnb_static/ { alias /data/web_static/current/; }',
-  match   => 'listen 80 default_server;',
-  require => Package['nginx'],
-  notify  => Service['nginx'],
-}
-
 # Restart nginx
-service { 'nginx':
-  ensure    => running,
-  enable    => true,
-  subscribe => File_line['nginx-hbnb-static-location'],
+exec { 'nginx restart':
+  path => '/etc/init.d/'
 }
