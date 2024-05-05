@@ -30,6 +30,10 @@ $nginx_conf = "server {
     }
 }"
 
+exec { 'chown -R ubuntu:ubuntu /data/':
+  path => '/usr/bin/:/usr/local/bin/:/bin/'
+}
+
 # Create directory structure
 file { ['/data', '/data/web_static', '/data/web_static/releases', '/data/web_static/shared', '/data/web_static/releases/test']:
   ensure => directory,
