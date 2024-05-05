@@ -23,12 +23,6 @@ $nginx_conf = "server {
     location /redirect_me {
         return 301 https://www.linkedin.com/in/heba-borhan/;
     }
-    error_page 404 /404.html;
-    location /404 {
-      root /var/www/html;
-      internal;
-      rewrite ^ /404.html break;
-    }
 }"
 
 exec { 'chown -R ubuntu:ubuntu /data/':
@@ -55,13 +49,6 @@ file { '/data/web_static/releases/test/index.html':
 </html>",
   owner   => 'ubuntu',
   group   => 'ubuntu',
-}
-
-# Create error page
-location = /404.html {
-    internal;
-    root /var/www/html;
-    echo 'Ceci n'est pas une page\n';
 }
 
 # Create symbolic link
