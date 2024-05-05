@@ -55,7 +55,7 @@ file { '/data/web_static/releases/test/index.html':
 # Create error page
 file { '/var/www/html/404.html':
   ensure  => 'present',
-  content => "Ceci n'est pas une page\n"
+  content => "Ceci n'est pas une page\n",
   owner   => 'ubuntu',
   group   => 'ubuntu',
 }
