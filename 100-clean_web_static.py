@@ -6,7 +6,7 @@ env.hosts = ['23.23.73.165', '54.144.141.225']
 
 
 def do_clean(number=0):
-    """Deletes out-of-date archives"""
+    """Deleting out-of-date archives"""
     try:
         number = int(number)
         if number < 1:
@@ -18,7 +18,9 @@ def do_clean(number=0):
 
         # Delete unnecessary archives in /data/web_static/releases folder
         with cd('/data/web_static/releases'):
-            run('ls -t | tail -n +{} | xargs rm -rf'.format(number + 1))
+            files = run('ls -t | tail -n +{} | grep -v "^d"'.format(number + 1)).split()
+            # Remove files only, keep directories intact
+            [run('rm -rf {}'.format(file)) for file in files]
 
         return True
     except Exception as e:
