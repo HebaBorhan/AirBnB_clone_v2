@@ -9,7 +9,7 @@ def do_clean(number=0):
     """Deleting out-of-date archives"""
     try:
         number = int(number)
-        if number < 1:
+        if number <= 0:
             number = 1
 
         # Delete unnecessary archives in the versions folder
@@ -18,9 +18,7 @@ def do_clean(number=0):
 
         # Delete unnecessary archives in /data/web_static/releases folder
         with cd('/data/web_static/releases'):
-            files = run('ls -t | tail -n +{} | grep -v "^d"'.format(number + 1)).split()
-            # Remove files only, keep directories intact
-            [run('rm -rf {}'.format(file)) for file in files]
+            run('ls -t | tail -n +{} | xargs rm -rf'.format(number + 1))
 
         return True
     except Exception as e:
