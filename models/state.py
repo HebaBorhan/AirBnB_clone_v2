@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """State Module for HBNB project"""
+import uuid
 from models.base_model import BaseModel, Base
 from models.city import City
 from sqlalchemy import Column, String
@@ -30,4 +31,6 @@ class State(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """initializes state"""
+        if not kwargs.get('id'):
+            kwargs['id'] = str(uuid.uuid4())
         super().__init__(*args, **kwargs)
