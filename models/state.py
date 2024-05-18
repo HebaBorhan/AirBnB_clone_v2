@@ -10,10 +10,11 @@ import os
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
-    name = Column(String(128), nullable=False)
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
-        cities = relationship("City", cascade="delete", backref="state")
+        name = Column(String(128), nullable=False)
+        cities = relationship("City", cascade="all, delete", backref="state")
     else:
+        name = ""
         @property
         def cities(self):
             """getter attribute cities that returns the list of City instances
