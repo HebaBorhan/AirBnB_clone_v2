@@ -27,3 +27,7 @@ class State(BaseModel, Base):
                 if city.state_id == self.id:
                     cts.append(city)
             return cts
+
+    def __init__(self, *args, **kwargs):
+        """initializes state"""
+        super().__init__(*args, **kwargs)
