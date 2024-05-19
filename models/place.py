@@ -37,37 +37,26 @@ class Place(BaseModel, Base):
     amenity_ids = []
 
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
-        reviews = relationship("Review", cascade="delete", backref="place")
-        amenities = relationship("Amenity", secondary="place_amenity",
-                                    viewonly=False, overlaps="place_amenities")
+        reviews = relationship("Review", cascade="all, delete", backref="place")
+        amenities = relationship("Amenity", secondary="place_amenity", viewonly=False, overlaps="place_amenities")
     
     else:
         @property
         def reviews(self):
             """getter attribute for reviews"""
             from models import storage
-            rvs = []
-            reviews = storage.all("Review").values()
-            for review in reviews:
-                if review.place_id == self.id:
-                    rvs.append(review)
-            return rvs
+            return [review for review in storage.all("Review").values() if review.place_id == self.id]
 
         @property
         def amenities(self):
             """getter attribute for amenities"""
             from models import storage
-            amenities_lst = []
-            amenities = storage.all("Amenity").values()
-            for amenity in amenities:
-                if amenity.id in self.amenity_ids:
-                    amenities_lst.append(amenity)
-            return amenities_lst
+            return [amenity for amenity in storage.all("Amenity").values() if amenity.id in self.amenity_ids]
 
         @amenities.setter
         def amenities(self, obj):
             """Adds an amenity to this Place"""
-            if type(obj) == Amenity:
+            if isinstance(obj, Amenity):
                 self.amenity_ids.append(obj.id)
 
     def __init__(self, *args, **kwargs):
