@@ -13,7 +13,7 @@ web_app = Flask(__name__)
 def cities_by_states():
     """listing  cities by states"""
     sorted_states = storage.all(State).values()
-    return render_template('8-cities_by_states.py', states=sorted_states)
+    return render_template('8-cities_by_states.html', states=sorted_states)
 
 
 @web_app.teardown_appcontext
