@@ -24,8 +24,10 @@ def statesid(state_id):
     states = storage.all(State)
     state = states.get(state_key)
     if state is None:
-        return render_template('9-states.html', states=[], state=None, not_found=True)
-    return render_template('9-states.html', states=[], state=state, not_found=False)
+        return render_template(
+            '9-states.html', states=[], state=None, not_found=True)
+    return render_template(
+        '9-states.html', states=[], state=state, not_found=False)
 
 
 @web_app.teardown_appcontext
