@@ -18,9 +18,9 @@ def mystates():
 
 
 @web_app.route("/states/<id>", strict_slashes=False)
-def statesid(state_id):
+def statesid(id):
     """listing cities of a specific State"""
-    state_key = 'State.' + state_id
+    state_key = f'State.{id}'
     states = storage.all(State)
     state = states.get(state_key)
     if state is None:
