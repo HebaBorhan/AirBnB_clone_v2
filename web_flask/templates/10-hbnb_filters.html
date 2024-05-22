@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>AirBnB Clone</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/4-common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/6-filters.css') }}">
+</head>
+ 
+<body>
+    <header>
+    </header>
+
+    <div class="container">
+        <section class="filters">
+            <button class="search-button">Search</button>
+            <div class="locations">
+                <h3>States</h3>
+                <h4>&nbsp;</h4>
+                <div class="popover">
+                    <ul>
+                        {% for state in states %}
+                        <li>
+                            <h2>{{ state.name }}</h2>
+                            <ul class="nested-list">
+                                {% for city in state.cities %}
+                                <li>{{ city.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="amenities">
+                <h3>Amenities</h3>
+                <h4>&nbsp;</h4>
+                <div class="popover">
+                    <ul>
+                        {% for amenity in amenities %}
+                        <li>{{ amenity.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>Best School</p>
+    </footer>
+</body>
+
+</html>
