@@ -7,10 +7,3 @@ header {
 	border-bottom: 1px solid #CCCCCC;
   }
   
-  @media screen and (max-width: 767px) {
-	header {
-		background-size: contain;
-		background-position: center;
-		height: 60px;
-	}
-  }
